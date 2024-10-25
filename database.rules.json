@@ -1,0 +1,7 @@
+{
+	"rules": {
+		".read": "now < 1732230000000",
+		".write": "now < 1732230000000",
+		".indexOn": "dateCreated"
+	}
+}
