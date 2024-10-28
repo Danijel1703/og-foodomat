@@ -20,6 +20,9 @@ const menuCreateFields: Array<TFieldProps> = [
 	},
 	{
 		name: "menuItems",
+		rules: {
+			required: true,
+		},
 	},
 ];
 

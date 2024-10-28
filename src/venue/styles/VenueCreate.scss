@@ -1,0 +1,28 @@
+@import "../../base.scss";
+
+.venue-create {
+	@extend %flex-center-x;
+	@extend %w-full;
+
+	.title {
+		color: $color-primary;
+		margin-bottom: 0;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		width: 40%;
+		margin-top: $h-med;
+
+		.field-input {
+			margin-top: $h-med;
+		}
+
+		.submit {
+			color: white;
+			margin-top: $h-med;
+			align-self: flex-end;
+		}
+	}
+}

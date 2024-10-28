@@ -1,0 +1,33 @@
+@import "../../base.scss";
+
+.order-list {
+	@extend %flex-center-both;
+	flex-direction: column;
+
+	.cards {
+		width: 70%;
+
+		.card {
+			background-color: $card-color;
+			margin-bottom: $h-lrg;
+
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			b,
+			.view-order {
+				margin: $h-med;
+			}
+
+			.view-order {
+				background-color: white;
+			}
+		}
+	}
+
+	.create-order {
+		align-self: "flex-end";
+		margin: $h-med;
+	}
+}

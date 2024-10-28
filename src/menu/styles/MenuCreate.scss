@@ -1,0 +1,67 @@
+@import "../../base.scss";
+
+.menu-create {
+	@extend %flex-center-both;
+	flex-direction: column;
+
+	h1 {
+		color: $color-primary;
+		margin-top: $h-med;
+		margin-bottom: 0;
+	}
+
+	form,
+	.dropdown,
+	.field-input {
+		width: 100%;
+	}
+
+	.form-wrapper {
+		width: 40%;
+	}
+
+	.create-options {
+		@extend %flex-space-between-x;
+
+		.field-input {
+			width: 48%;
+		}
+	}
+
+	.add-option {
+		float: right;
+		margin-top: $h-sml;
+	}
+
+	.options-list {
+		margin-top: $h-med;
+		@extend %flex-space-between-x;
+	}
+
+	.options-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.field-input {
+		margin-top: $h-med;
+	}
+
+	.add-option-button {
+		margin-top: $h-sml;
+		@extend %flex-end-x;
+	}
+
+	.create-menu-button {
+		padding-top: $h-sml;
+		width: 100%;
+		@extend %flex-end-x;
+	}
+
+	.added-items-title {
+		margin-top: $h-lrg;
+	}
+	.added-items {
+		margin-top: $h-sml;
+	}
+}

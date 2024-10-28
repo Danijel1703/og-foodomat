@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { each } from "lodash-es";
+import { useLoaderData } from "react-router-dom";
 import { SingleValue } from "react-select";
 import {
 	createForm,
@@ -10,20 +11,25 @@ import {
 import { MenuService } from "../../API";
 import { DropdownInput } from "../../components";
 import WithAuth from "../../hoc/WithAuth";
-import { CheckIcon } from "../../icons";
-import { TVenue } from "../../types";
+import { TMenu, TVenue } from "../../types";
+import { generateId } from "../../utils";
 import { MenuItems } from "../components";
 import { menuCreateFields } from "../form-fields";
-import "../styles/MenuCreate.scss";
+import { EditIcon } from "../../icons";
 
-function MenuCreate() {
+function MenuEdit() {
+	const entity: TMenu = useLoaderData() as TMenu;
 	const form = createForm({
 		fieldProps: menuCreateFields,
+		entity: entity,
 		onSubmit: async (event: Event) => {
 			event.preventDefault();
 			const { values } = form;
-			each(values.menuItems, (i) => delete i.domId);
-			await MenuService.createMenu(values);
+			each(values.menuItems, (i) => {
+				delete i.domId;
+				if (!i.id) i.id = generateId();
+			});
+			await MenuService.update({ ...entity, ...values });
 		},
 	});
 	const {
@@ -61,10 +67,10 @@ function MenuCreate() {
 									disabled={!form.isValid}
 									variant="contained"
 									onClick={(e) => form.onSubmit(e)}
-									endIcon={<CheckIcon />}
-									className="f-right"
+									endIcon={<EditIcon />}
+									sx={{ float: "right" }}
 								>
-									Create Menu
+									Edit Menu
 								</Button>
 							)}
 						/>
@@ -75,4 +81,4 @@ function MenuCreate() {
 	);
 }
 
-export default MenuCreate;
+export default MenuEdit;

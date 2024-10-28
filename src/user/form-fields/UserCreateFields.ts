@@ -80,9 +80,6 @@ const userCreateFields: Array<TFieldProps> = [
 	{
 		type: fieldTypeConstants.file,
 		name: "image",
-		rules: {
-			required: true,
-		},
 		label: "Image",
 		placeholder: "Upload image",
 	},

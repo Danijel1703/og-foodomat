@@ -1,0 +1,95 @@
+@import "../../base.scss";
+
+.stepper-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.stepper {
+		width: 80%;
+		margin-top: 5vh;
+	}
+
+	.step-content {
+		margin-top: 5vh;
+
+		.step-actions {
+			display: flex;
+			justify-content: flex-end;
+			margin-top: 5vh;
+		}
+
+		.venue-votes {
+			margin-top: 2vh;
+			display: flex;
+			justify-content: center;
+		}
+
+		.menu,
+		.order-summary {
+			background-color: $card-color;
+
+			h2 {
+				color: $color-primary;
+			}
+
+			.menu-item {
+				margin-left: 2vh;
+
+				.preview {
+					display: flex;
+					align-items: center;
+				}
+			}
+
+			.info-section {
+				margin: 1vh 0 0 0;
+
+				* {
+					padding: 0;
+					margin: 0;
+				}
+			}
+
+			.meal-amount {
+				display: flex;
+
+				.input {
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					.amount {
+						border: 1px solid black;
+						padding: 5px;
+						border-radius: 10%;
+						background-color: white;
+						margin: 1vh;
+					}
+				}
+			}
+		}
+
+		.order-summary {
+			.user-order-total {
+				margin-bottom: 3vh;
+			}
+
+			.menu-item {
+				p {
+					margin: 0 0 1vh 0;
+				}
+			}
+		}
+
+		.order-total {
+			display: flex;
+			justify-content: flex-end;
+		}
+
+		.submit-actions {
+			display: flex;
+			justify-content: flex-end;
+		}
+	}
+}
