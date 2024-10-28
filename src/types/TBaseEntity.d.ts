@@ -1,7 +1,7 @@
 type TBaseEntity = {
 	dateCreated?: string;
 	dateUpdated?: string;
-	id: string;
+	id?: string;
 };
 
 export default TBaseEntity;

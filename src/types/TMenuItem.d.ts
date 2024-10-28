@@ -3,8 +3,21 @@ type TMenuItem = {
 	name: string;
 	categoryId: string;
 	description: string;
-	sizeVariants: Array<{ id: string; value: string; label: string }>;
-	extras: Array<{ id: string; value: string; label: string; price: number }>;
+	price: number;
+	sizeVariants: Array<{
+		id: string;
+		value: string;
+		label: string;
+		price: number;
+	}>;
+	extras: Array<{
+		id: string;
+		value: string;
+		label: string;
+		price: number;
+	}>;
+	domId?: string;
+	amount?: number;
 };
 
 export default TMenuItem;

@@ -3,7 +3,7 @@ import TMenuItem from "./TMenuItem";
 type TMenu = {
 	id: string;
 	venueId: string;
-	items: Array<TMenuItem>;
+	menuItems: Array<TMenuItem>;
 };
 
 export default TMenu;
