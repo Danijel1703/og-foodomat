@@ -1,7 +1,9 @@
+import { each } from "lodash-es";
 import { dbCollections } from "../constants";
 import { TMenu } from "../types";
 import BaseService from "./BaseService";
 import VenueService from "./VenueService";
+import { generateId } from "../utils";
 
 class MenuService extends BaseService<TMenu> {
 	constructor() {
@@ -10,7 +12,7 @@ class MenuService extends BaseService<TMenu> {
 
 	createMenu = async (menu: TMenu) => {
 		try {
-			console.log(menu);
+			each(menu.menuItems, (i) => (i.id = generateId()));
 			const { id } = await this.create(menu);
 			const venueId = menu.venueId;
 			const venue = await VenueService.getById(venueId);

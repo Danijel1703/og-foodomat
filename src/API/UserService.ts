@@ -9,12 +9,12 @@ import {
 	signOut,
 	UserCredential,
 } from "firebase/auth";
-import BaseService from "./BaseService";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { TCredentials, TUser, TUserService } from "../types";
 import { dbCollections, errorConstants } from "../constants";
+import { TCredentials, TUser } from "../types";
+import BaseService from "./BaseService";
 
-class UserService extends BaseService<TUser> implements TUserService {
+class UserService extends BaseService<TUser> {
 	constructor() {
 		super(dbCollections.users);
 	}

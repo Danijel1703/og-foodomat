@@ -3,7 +3,7 @@ import {
 	Database,
 	get,
 	getDatabase,
-	limitToFirst,
+	limitToLast,
 	orderByChild,
 	query,
 	QueryConstraint,
@@ -14,20 +14,18 @@ import {
 } from "firebase/database";
 import { isEmpty, last, map } from "lodash-es";
 import moment from "moment";
-import { TBaseEntity, TUser, TVenue } from "../types";
+import { TBaseEntity } from "../types";
 import { generateId } from "../utils";
 import firebaseConfig from "./config";
 
 class BaseService<TEntity> {
 	db: Database;
 	collection: string;
-	lastEntryId?: string;
 
 	constructor(collection: string) {
 		initializeApp(firebaseConfig);
 		this.db = getDatabase();
 		this.collection = collection;
-		this.lastEntryId;
 	}
 
 	create = async (entity: TEntity & TBaseEntity) => {
@@ -58,20 +56,11 @@ class BaseService<TEntity> {
 	get = async () => {
 		try {
 			const filters: Array<QueryConstraint> = [];
-			// if (this.lastEntryId) {
-			// 	filters.push(startAt(this.lastEntryId));
-			// }
-			const dbQuery = query(
-				ref(this.db, this.collection),
-				orderByChild("dateCreated"),
-				limitToFirst(30),
-				...filters
-			);
+			const dbQuery = query(ref(this.db, this.collection), ...filters);
 			const snapshot = await get(dbQuery);
 			await this.getTotalRecords();
 			const records: { [key: string]: TEntity & TBaseEntity } = snapshot.val();
 			const items = map(records, (value) => value);
-			this.lastEntryId = last(items)?.id;
 			const response = await this.buildResponse(items);
 			return response;
 		} catch (error) {
@@ -85,7 +74,7 @@ class BaseService<TEntity> {
 			totalRecords,
 			items,
 			page: 1,
-			rpp: 1,
+			rpp: totalRecords,
 		};
 		return response;
 	};
@@ -104,6 +93,8 @@ class BaseService<TEntity> {
 		try {
 			entity.dateUpdated = moment().utc().format();
 			await update(ref(this.db, `${this.collection}/${entity.id}`), entity);
+			const updatedEntity = await this.getById(entity.id!);
+			return updatedEntity;
 		} catch (error) {
 			throw error;
 		}
