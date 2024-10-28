@@ -1,4 +1,4 @@
-import { map, uniqBy } from "lodash-es";
+import { find, map, uniqBy } from "lodash-es";
 import { useEffect, useState } from "react";
 import Select, { SingleValue } from "react-select";
 import {
@@ -7,6 +7,8 @@ import {
 	TSelectableItem,
 	TSynergyRules,
 } from "synergy-form-generator";
+import { generateId } from "../utils";
+import chroma from "chroma-js";
 
 function DropdownInput(props: {
 	onChange: Function;
@@ -18,7 +20,7 @@ function DropdownInput(props: {
 	error?: string;
 	rules: TSynergyRules;
 	disabled: boolean;
-	items?: Array<TSelectableItem>;
+	items?: Array<TSelectableItem | any>;
 	dropdownStore?: TDropdownStore;
 	type: TFieldComponentType;
 	isRequired?: boolean;
@@ -33,11 +35,16 @@ function DropdownInput(props: {
 	const { dropdownStore } = props;
 	const { getItems } = dropdownStore as TDropdownStore;
 	const [items, setItems] = useState<Array<TSelectableItem>>([]);
+	const [defaultItem, setDefaultItem] = useState<TSelectableItem>();
+	const [refKey, setRefKey] = useState<string>();
+	const [initialized, setInitialized] = useState(false);
 
 	const fetchItems = async () => {
 		const response = (await getItems()) as unknown as Array<TSelectableItem>;
+		let it: Array<TSelectableItem> = [];
 		setItems((i: Array<TSelectableItem>) => {
-			return uniqBy([...response, ...i], "id");
+			it = uniqBy([...response, ...i], "id");
+			return it;
 		});
 	};
 
@@ -52,14 +59,55 @@ function DropdownInput(props: {
 		fetchItems();
 	}, []);
 
+	useEffect(() => {
+		const defaultValue = find(items, (i) => i.id === props.value);
+		if (defaultValue && !initialized) {
+			setDefaultItem(find(items, (i) => i.id === props.value));
+			setRefKey(generateId()); //We have to force re-render since defaultValue is not controlled prop
+			setInitialized(true);
+		}
+	}, [items]);
+
+	const color = chroma("#4caf50");
+
 	return (
 		<Select
+			key={refKey}
 			onMenuOpen={fetchItems}
 			options={items}
+			defaultValue={defaultItem}
 			onChange={selectItem}
 			closeMenuOnSelect={true}
 			onMenuScrollToBottom={getItems}
-			className={props.className}
+			className={`${props.className} field-input react-select`}
+			styles={{
+				control: (base) => ({
+					...base,
+					"&:hover": { borderColor: "gray" },
+					border: "1px solid lightgray",
+					boxShadow: "none",
+				}),
+				option: (base, { data, isDisabled, isFocused, isSelected }) => ({
+					...base,
+					backgroundColor: isDisabled
+						? undefined
+						: isSelected
+						? "#4caf50"
+						: isFocused
+						? color.alpha(0.1).css()
+						: undefined,
+					":active": {
+						...base[":active"],
+						backgroundColor: !isDisabled
+							? isSelected
+								? data.color
+								: color.alpha(0.3).css()
+							: undefined,
+					},
+				}),
+			}}
+			isDisabled={props.disabled}
+			placeholder={props.placeholder}
 		/>
 	);
 }
