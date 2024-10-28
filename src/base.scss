@@ -1,0 +1,159 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+$color-primary: #4caf50;
+$color-secondary: #76ff03;
+$card-color: rgb(240, 240, 240);
+$h-xsml: 0.5vh;
+$h-sml: 1vh;
+$h-med: 3vh;
+$h-lrg: 5vh;
+
+$w-xsml: 0.5vw;
+$w-sml: 1vw;
+$w-med: 3vw;
+$w-lrg: 5vw;
+
+body {
+	font-family: "Roboto", sans-serif;
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	scroll-behavior: smooth;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+%flex-center-both {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+%flex-center-y {
+	display: flex;
+	align-items: center;
+}
+
+%flex-center-x {
+	display: flex;
+	justify-content: center;
+}
+
+%flex-end-x {
+	display: flex;
+	justify-content: flex-end;
+}
+
+%flex-space-between-x {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+%w-full {
+	width: 100%;
+}
+
+%h-full {
+	width: 100%;
+}
+
+%f-right {
+	float: right;
+}
+
+%no-spacing {
+	margin: 0;
+	padding: 0;
+}
+
+#root {
+	padding-bottom: $h-lrg;
+}
+
+.bg-white {
+	background-color: white !important;
+}
+
+.f-right {
+	@extend %f-right;
+}
+
+.header {
+	height: 35vh;
+	@extend %flex-center-both;
+	background-image: url("./assets/wallpaper.jpg");
+
+	.title {
+		@extend %w-full;
+		@extend %h-full;
+		@extend %flex-center-both;
+		font-size: 15vh;
+		font-weight: 500;
+		color: white;
+		-webkit-background-clip: text;
+		-moz-background-clip: text;
+		background-clip: text;
+		-webkit-text-stroke-width: 3px;
+		-webkit-text-stroke-color: black;
+		text-shadow: black 1px 0 20px;
+	}
+}
+
+.navbar {
+	@extend %w-full;
+	@extend %flex-space-between-x;
+	background-color: black;
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+
+	.active {
+		border-bottom: 3px solid $color-primary;
+	}
+
+	.nav-item {
+		@extend %flex-center-both;
+		height: $h-lrg;
+		padding: $h-xsml;
+		padding-left: $w-sml;
+		padding-right: $w-sml;
+		color: $color-primary;
+	}
+
+	.nav-links {
+		display: flex;
+	}
+
+	.user-actions {
+		@extend %flex-center-both;
+		margin-right: $w-sml;
+
+		a {
+			border: none !important;
+		}
+	}
+}
+
+footer {
+	margin-top: $h-med;
+	background-color: black;
+	height: $h-lrg * 2;
+	width: 100%;
+	@extend %flex-center-both;
+	color: rgb(60, 60, 60);
+}
+
+.MuiFormLabel-root {
+	z-index: 0 !important;
+}
+
+.MuiButton-contained {
+	color: white !important;
+}

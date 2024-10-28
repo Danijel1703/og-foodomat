@@ -1,0 +1,47 @@
+@import "../../base.scss";
+
+.venue-list {
+	.add-venue {
+		float: right;
+		margin: $h-lrg;
+	}
+	.venue-info {
+		margin-bottom: $h-lrg;
+
+		h2,
+		h3 {
+			@extend %flex-center-y;
+		}
+	}
+	.cards {
+		margin-top: $h-lrg;
+		@extend %w-full;
+		@extend %flex-center-both;
+		flex-direction: column;
+
+		.venue-info {
+			background-color: $card-color;
+			width: 70%;
+			padding: $h-med;
+
+			.actions {
+				display: flex;
+				justify-content: flex-end;
+				gap: $w-xsml;
+			}
+
+			h2 {
+				@extend %no-spacing;
+				color: $color-primary;
+			}
+
+			.info-section {
+				margin: $h-med 0 0 0;
+
+				* {
+					@extend %no-spacing;
+				}
+			}
+		}
+	}
+}

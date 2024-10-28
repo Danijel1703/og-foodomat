@@ -3,8 +3,9 @@ import Root from "./Root";
 import { UserCreate, UserLogin } from "./user/pages";
 import { VenueCreate, VenueEdit, VenueList } from "./venue/pages";
 import { getAuth } from "./utils";
-import { MenuCreate, MenuPreview } from "./menu/pages";
-import { MenuService, VenueService } from "./API";
+import { MenuCreate, MenuEdit, MenuPreview } from "./menu/pages";
+import { MenuService, OrderService, UserService, VenueService } from "./API";
+import { OrderEdit, OrderList } from "./order/pages";
 
 const authPromise = async () => {
 	const auth = getAuth();
@@ -26,6 +27,13 @@ const router = createBrowserRouter([
 				children: [
 					{
 						path: "register",
+						loader: async () => {
+							const auth = await authPromise();
+							if (auth.currentUser) {
+								return redirect("/venue/list");
+							}
+							return null;
+						},
 						element: <UserCreate />,
 					},
 					{
@@ -33,7 +41,7 @@ const router = createBrowserRouter([
 						loader: async () => {
 							const auth = await authPromise();
 							if (auth.currentUser) {
-								return redirect("/");
+								return redirect("/venue/list");
 							}
 							return null;
 						},
@@ -76,6 +84,35 @@ const router = createBrowserRouter([
 							return menu;
 						},
 						element: <MenuPreview />,
+					},
+					{
+						path: "edit/:id",
+						loader: async ({ params }) => {
+							const menu = await MenuService.getById(params.id as string);
+							return menu;
+						},
+						element: <MenuEdit />,
+					},
+				],
+			},
+			{
+				path: "order",
+				children: [
+					{
+						path: "list",
+						loader: async () => {
+							const response = await OrderService.get();
+							return response.items;
+						},
+						element: <OrderList />,
+					},
+					{
+						path: "edit/:id",
+						loader: async ({ params }) => {
+							const order = await OrderService.getById(params.id as string);
+							return order;
+						},
+						element: <OrderEdit />,
 					},
 				],
 			},
