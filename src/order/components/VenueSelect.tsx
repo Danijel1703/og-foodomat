@@ -1,24 +1,24 @@
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { Button } from "@mui/material";
+import {
+	BarElement,
+	CategoryScale,
+	Chart as ChartJS,
+	Legend,
+	LinearScale,
+	Title,
+	Tooltip,
+} from "chart.js";
+import chroma from "chroma-js";
 import { find, flatMap, isEmpty, map } from "lodash-es";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { SingleValue } from "react-select";
+import { Bar } from "react-chartjs-2";
+import Select, { SingleValue } from "react-select";
 import { OrderService, UserService, VenueService } from "../../API";
 import { orderStatuses } from "../../constants";
 import { TOrder, TVenue, TVenueVote } from "../../types";
-import { generateId, getAuth } from "../../utils";
-import Select from "react-select";
-import chroma from "chroma-js";
-import { Button, setRef } from "@mui/material";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { Bar } from "react-chartjs-2";
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-} from "chart.js";
+import { generateId } from "../../utils";
+import { getAuth } from "firebase/auth";
 
 const color = chroma("#4caf50");
 
@@ -82,7 +82,7 @@ function VenueSelect({
 		}
 	}, [order]);
 
-	const updateOrderVenue: MouseEventHandler<HTMLInputElement> = (e) => {
+	const updateOrderVenue: MouseEventHandler<HTMLButtonElement> = (e) => {
 		e.preventDefault();
 		order.status = orderStatuses.mealSelect;
 		order.venueId = selectedVenue?.id;
@@ -165,7 +165,10 @@ function VenueSelect({
 					</Button>
 				)}
 				{isOrderAdmin && (
-					<Button onClick={updateOrderVenue} disabled={isEmpty(selectedVenue)}>
+					<Button
+						onClick={(e) => updateOrderVenue(e)}
+						disabled={isEmpty(selectedVenue)}
+					>
 						Next
 					</Button>
 				)}

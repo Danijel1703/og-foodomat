@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {
-	Database,
 	get,
-	getDatabase,
 	query,
 	QueryConstraint,
 	ref,
@@ -15,14 +13,13 @@ import moment from "moment";
 import { TBaseEntity } from "../types";
 import { generateId } from "../utils";
 import firebaseConfig from "./config";
+import db from "./db";
 
 class BaseService<TEntity> {
-	db: Database;
 	collection: string;
 
 	constructor(collection: string) {
 		initializeApp(firebaseConfig);
-		this.db = getDatabase();
 		this.collection = collection;
 	}
 
@@ -31,20 +28,21 @@ class BaseService<TEntity> {
 			if (isEmpty(entity.id)) {
 				entity.id = generateId();
 			}
-			await set(ref(this.db, `${this.collection}/` + entity.id), {
+			await set(ref(db, `${this.collection}/` + entity.id), {
 				...entity,
 				dateCreated: moment().utc().format(),
 				dateUpdated: moment().utc().format(),
 			});
 			return entity;
 		} catch (error) {
+			console.log(error);
 			throw error;
 		}
 	};
 
 	getTotalRecords = async () => {
 		try {
-			const snapshot = await get(ref(this.db, this.collection));
+			const snapshot = await get(ref(db, this.collection));
 			return snapshot.size;
 		} catch (error) {
 			throw error;
@@ -54,7 +52,7 @@ class BaseService<TEntity> {
 	get = async () => {
 		try {
 			const filters: Array<QueryConstraint> = [];
-			const dbQuery = query(ref(this.db, this.collection), ...filters);
+			const dbQuery = query(ref(db, this.collection), ...filters);
 			const snapshot = await get(dbQuery);
 			await this.getTotalRecords();
 			const records: { [key: string]: TEntity & TBaseEntity } = snapshot.val();
@@ -79,7 +77,7 @@ class BaseService<TEntity> {
 
 	getById = async (id: string): Promise<TEntity> => {
 		try {
-			const snapshot = await get(ref(this.db, `${this.collection}/${id}`));
+			const snapshot = await get(ref(db, `${this.collection}/${id}`));
 			const user = snapshot.val();
 			return user;
 		} catch (error) {
@@ -90,7 +88,7 @@ class BaseService<TEntity> {
 	update = async (entity: TEntity & TBaseEntity) => {
 		try {
 			entity.dateUpdated = moment().utc().format();
-			await update(ref(this.db, `${this.collection}/${entity.id}`), entity);
+			await update(ref(db, `${this.collection}/${entity.id}`), entity);
 			const updatedEntity = await this.getById(entity.id!);
 			return updatedEntity;
 		} catch (error) {
@@ -100,7 +98,7 @@ class BaseService<TEntity> {
 
 	delete = async (id: string) => {
 		try {
-			await remove(ref(this.db, `${this.collection}/${id}`));
+			await remove(ref(db, `${this.collection}/${id}`));
 		} catch (error) {
 			throw error;
 		}

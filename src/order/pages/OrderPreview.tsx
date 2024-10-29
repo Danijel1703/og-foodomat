@@ -1,9 +1,9 @@
 import { isEmpty, map } from "lodash-es";
 import { TMeal, TOrder } from "../../types";
-import { getAuth } from "../../utils";
 import React, { useEffect } from "react";
 import { OrderService } from "../../API";
 import { Card, Divider } from "@mui/material";
+import { getAuth } from "firebase/auth";
 
 function OrderPreview({
 	order,

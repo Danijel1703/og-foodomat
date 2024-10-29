@@ -9,7 +9,6 @@ type TUser = {
 	lastLogin?: Date;
 	imageUrl: string;
 	image?: File;
-	status: string;
 } & TBaseEntity;
 
 export default TUser;

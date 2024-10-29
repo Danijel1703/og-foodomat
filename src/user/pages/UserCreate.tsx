@@ -48,7 +48,7 @@ const UserCreate = () => {
 			<FormComponent form={form}>
 				<h1>User register: </h1>
 				{map(userFields, (field) => (
-					<FieldComponent field={field} />
+					<FieldComponent key={field.id} field={field} />
 				))}
 				<Submit
 					form={form}
@@ -58,6 +58,7 @@ const UserCreate = () => {
 							variant="contained"
 							onClick={() => form.onSubmit(form.getValues())}
 							className="f-right"
+							name="register"
 							sx={{ alignSelf: "flex-end" }}
 						>
 							Register

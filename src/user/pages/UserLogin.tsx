@@ -35,6 +35,7 @@ function UserLogin(props: { redirectRoute?: string; title?: string }) {
 					component={() => (
 						<Button
 							disabled={!form.isValid}
+							name="login-submit"
 							variant="contained"
 							onClick={() => form.onSubmit(form.getValues())}
 							className="f-right"

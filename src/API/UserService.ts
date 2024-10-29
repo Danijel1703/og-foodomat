@@ -40,6 +40,8 @@ class UserService extends BaseService<TUser> {
 					const snapshot = await uploadBytes(storageRef, image, metadata);
 					const downloadUrl = await getDownloadURL(snapshot.ref);
 					user.imageUrl = downloadUrl;
+				} else {
+					delete user.image;
 				}
 				await this.create(user);
 				return userCredential;

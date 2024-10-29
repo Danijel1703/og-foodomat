@@ -35,6 +35,7 @@ function VenueEdit() {
 			country,
 			email,
 			websiteUrl,
+			phoneNumber,
 		},
 	} = form;
 
@@ -44,6 +45,7 @@ function VenueEdit() {
 		address,
 		city,
 		postalCode,
+		phoneNumber,
 		country,
 		email,
 		websiteUrl,
@@ -54,7 +56,7 @@ function VenueEdit() {
 			<div className="venue-create">
 				<FormComponent form={form}>
 					{map(venueFields, (field) => (
-						<FieldComponent field={field} />
+						<FieldComponent key={field.id} field={field} />
 					))}
 					<Submit
 						component={() => (
@@ -62,7 +64,9 @@ function VenueEdit() {
 								variant="contained"
 								className="submit"
 								endIcon={<CreateIcon />}
+								onClick={() => form.onSubmit(form.getValues())}
 								disabled={!form.isValid}
+								name="update-venue"
 							>
 								Update
 							</Button>

@@ -1,11 +1,11 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
+import { MenuService, OrderService, VenueService } from "./API";
+import { MenuCreate, MenuEdit, MenuPreview } from "./menu/pages";
+import { OrderEdit, OrderList } from "./order/pages";
 import Root from "./Root";
 import { UserCreate, UserLogin } from "./user/pages";
 import { VenueCreate, VenueEdit, VenueList } from "./venue/pages";
-import { getAuth } from "./utils";
-import { MenuCreate, MenuEdit, MenuPreview } from "./menu/pages";
-import { MenuService, OrderService, UserService, VenueService } from "./API";
-import { OrderEdit, OrderList } from "./order/pages";
+import { getAuth } from "firebase/auth";
 
 const authPromise = async () => {
 	const auth = getAuth();

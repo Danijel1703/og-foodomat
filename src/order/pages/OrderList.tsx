@@ -5,9 +5,9 @@ import { OrderService, UserService } from "../../API";
 import { orderStatuses } from "../../constants";
 import { AddIcon, VisibilityIcon } from "../../icons";
 import { TOrder } from "../../types";
-import { getAuth } from "../../utils";
 import "../styles/OrderList.scss";
 import moment from "moment";
+import { getAuth } from "firebase/auth";
 
 function OrderList() {
 	const navigate = useNavigate();

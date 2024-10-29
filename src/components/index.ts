@@ -8,3 +8,4 @@ export { default as NumberInput } from "./NumberInput";
 export { default as PriceInput } from "./PriceInput";
 export { default as PasswordInput } from "./PasswordInput";
 export { default as FileInput } from "./FileInput";
+export { default as PhoneInput } from "./PhoneInput";

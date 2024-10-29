@@ -7,8 +7,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import NoAuth from "../hoc/NoAuth";
 import { useEffect, useState } from "react";
 import { TUser } from "../types";
-import { getAuth } from "../utils";
-import { onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function Navbar() {
 	const navigate = useNavigate();
@@ -22,6 +21,7 @@ function Navbar() {
 	};
 
 	useEffect(() => {
+		getUser();
 		const unsubscribe = onAuthStateChanged(getAuth(), getUser);
 		return () => {
 			unsubscribe();
@@ -77,7 +77,7 @@ function Navbar() {
 				<WithAuth>
 					<div className="logged-user">{`${user?.firstName} ${user?.lastName}`}</div>
 					<NavLink to="/" className={"nav-item"} onClick={logout}>
-						<Button variant="contained" endIcon={<LoginIcon />}>
+						<Button variant="contained" name="logout" endIcon={<LoginIcon />}>
 							Logout
 						</Button>
 					</NavLink>

@@ -6,12 +6,18 @@ const userLoginFields: Array<TFieldProps> = [
 		type: "email",
 		placeholder: "Email...",
 		label: "Email",
+		rules: {
+			required: true,
+		},
 	},
 	{
 		name: "password",
 		type: "password",
 		placeholder: "Password...",
 		label: "Password",
+		rules: {
+			required: true,
+		},
 	},
 ];
 

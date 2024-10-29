@@ -34,6 +34,7 @@ function VenueCreate() {
 			country,
 			email,
 			websiteUrl,
+			phoneNumber,
 		},
 	} = form;
 
@@ -43,6 +44,7 @@ function VenueCreate() {
 		address,
 		city,
 		postalCode,
+		phoneNumber,
 		country,
 		email,
 		websiteUrl,
@@ -54,7 +56,7 @@ function VenueCreate() {
 				<FormComponent form={form}>
 					<h1 className="title">Create Venue: </h1>
 					{map(venueFields, (field) => (
-						<FieldComponent field={field} />
+						<FieldComponent key={field.id} field={field} />
 					))}
 					<Submit
 						component={() => (
@@ -62,7 +64,9 @@ function VenueCreate() {
 								variant="contained"
 								className="submit"
 								endIcon={<CheckIcon />}
+								onClick={() => form.onSubmit(form.getValues())}
 								disabled={!form.isValid}
+								name="create-menu"
 							>
 								Create
 							</Button>

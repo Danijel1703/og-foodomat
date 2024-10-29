@@ -6,10 +6,11 @@ import { TOrder } from "../../types";
 import { MealSelect, VenueSelect } from "../components";
 import OrderPreview from "./OrderPreview";
 import { Step, StepLabel, Stepper } from "@mui/material";
-import { generateId, getAuth } from "../../utils";
+import { generateId } from "../../utils";
 import "../styles/OrderEdit.scss";
 import { find, indexOf } from "lodash-es";
 import { UserLogin } from "../../user/pages";
+import { getAuth } from "firebase/auth";
 
 const steps = [
 	{

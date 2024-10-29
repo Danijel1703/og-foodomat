@@ -12,16 +12,7 @@ import {
 	RadioGroup,
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import {
-	compact,
-	each,
-	filter,
-	find,
-	includes,
-	isEmpty,
-	map,
-	sum,
-} from "lodash-es";
+import { compact, each, filter, find, isEmpty, map, sum } from "lodash-es";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
 	MenuService,
@@ -31,7 +22,7 @@ import {
 } from "../../API";
 import { orderStatuses } from "../../constants";
 import { TMeal, TMenu, TMenuItem, TOrder, TVenue } from "../../types";
-import { getAuth } from "../../utils";
+import { getAuth } from "firebase/auth";
 
 type TOption = {
 	id: string;

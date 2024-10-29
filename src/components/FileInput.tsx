@@ -16,7 +16,6 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 function FileInput(props: TInputProps) {
-	console.log(props.value);
 	return (
 		<Button
 			component="label"
