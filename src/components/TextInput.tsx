@@ -12,6 +12,7 @@ function TextInput(props: TInputProps) {
 		onChange,
 		isRequired,
 		disabled,
+		name,
 	} = props;
 
 	return (
@@ -26,6 +27,7 @@ function TextInput(props: TInputProps) {
 			className={`field-input ${props.className}`}
 			label={label}
 			type={type}
+			name={name}
 		/>
 	);
 }

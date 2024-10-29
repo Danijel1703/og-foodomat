@@ -9,6 +9,7 @@ type TInputProps = {
 	disabled?: boolean;
 	isRequired?: boolean;
 	type?: string;
+	name: string;
 };
 
 export default TInputProps;

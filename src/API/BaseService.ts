@@ -3,8 +3,6 @@ import {
 	Database,
 	get,
 	getDatabase,
-	limitToLast,
-	orderByChild,
 	query,
 	QueryConstraint,
 	ref,
@@ -12,7 +10,7 @@ import {
 	set,
 	update,
 } from "firebase/database";
-import { isEmpty, last, map } from "lodash-es";
+import { isEmpty, map } from "lodash-es";
 import moment from "moment";
 import { TBaseEntity } from "../types";
 import { generateId } from "../utils";

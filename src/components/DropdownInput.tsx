@@ -31,6 +31,7 @@ function DropdownInput(props: {
 	addOption: (item: TSelectableItem) => void;
 	removeOption: (item: TSelectableItem) => void;
 	setValue: (value: any) => void;
+	name: string;
 }) {
 	const { dropdownStore } = props;
 	const { getItems } = dropdownStore as TDropdownStore;
@@ -72,6 +73,7 @@ function DropdownInput(props: {
 
 	return (
 		<Select
+			name={props.name}
 			key={refKey}
 			onMenuOpen={fetchItems}
 			options={items}
@@ -87,24 +89,26 @@ function DropdownInput(props: {
 					border: "1px solid lightgray",
 					boxShadow: "none",
 				}),
-				option: (base, { data, isDisabled, isFocused, isSelected }) => ({
-					...base,
-					backgroundColor: isDisabled
-						? undefined
-						: isSelected
-						? "#4caf50"
-						: isFocused
-						? color.alpha(0.1).css()
-						: undefined,
-					":active": {
-						...base[":active"],
-						backgroundColor: !isDisabled
-							? isSelected
-								? data.color
-								: color.alpha(0.3).css()
+				option: (base, { data, isDisabled, isFocused, isSelected }) => {
+					return {
+						...base,
+						backgroundColor: isDisabled
+							? undefined
+							: isSelected
+							? "#4caf50"
+							: isFocused
+							? color.alpha(0.1).css()
 							: undefined,
-					},
-				}),
+						":active": {
+							...base[":active"],
+							backgroundColor: !isDisabled
+								? isSelected
+									? data.color
+									: color.alpha(0.3).css()
+								: undefined,
+						},
+					};
+				},
 			}}
 			isDisabled={props.disabled}
 			placeholder={props.placeholder}
