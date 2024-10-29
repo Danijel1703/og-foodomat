@@ -5,12 +5,13 @@ import { orderStatuses } from "../../constants";
 import { TOrder } from "../../types";
 import { MealSelect, VenueSelect } from "../components";
 import OrderPreview from "./OrderPreview";
-import { Step, StepLabel, Stepper } from "@mui/material";
+import { Button, Step, StepLabel, Stepper, Tooltip } from "@mui/material";
 import { generateId } from "../../utils";
 import "../styles/OrderEdit.scss";
 import { find, indexOf } from "lodash-es";
 import { UserLogin } from "../../user/pages";
 import { getAuth } from "firebase/auth";
+import { ContentCopyIcon } from "../../icons";
 
 const steps = [
 	{
@@ -58,8 +59,20 @@ function OrderEdit() {
 		);
 	}
 
+	const copyText = () => navigator.clipboard.writeText(window.location.href);
+
 	return (
 		<div className="stepper-wrapper">
+			<Tooltip title="Copy" placement="top">
+				<Button
+					variant="outlined"
+					className="copy-button"
+					onClick={copyText}
+					startIcon={<ContentCopyIcon />}
+				>
+					Copy Link
+				</Button>
+			</Tooltip>
 			<div className="stepper">
 				<Stepper activeStep={activeStep}>
 					{steps.map(({ label, status }, index) => {

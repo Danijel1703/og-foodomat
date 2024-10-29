@@ -42,6 +42,7 @@ function MenuItemCreateForm({
 						{...props}
 						dropdownStore={categoryId.dropdownStore}
 						onChange={onCategoryChange}
+						isRequired={true}
 					/>
 				)}
 			/>

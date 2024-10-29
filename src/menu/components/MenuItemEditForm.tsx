@@ -67,6 +67,7 @@ function MenuItemEditForm({
 							{...props}
 							dropdownStore={categoryId.dropdownStore}
 							onChange={onCategoryChange}
+							isRequired={true}
 						/>
 					)}
 				/>

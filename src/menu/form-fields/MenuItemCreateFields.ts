@@ -15,6 +15,7 @@ const menuItemCreateFields: Array<TFieldProps> = [
 		name: "categoryId",
 		label: "Category",
 		type: "dropdown",
+		placeholder: "Select Category...",
 		rules: {
 			required: true,
 		},

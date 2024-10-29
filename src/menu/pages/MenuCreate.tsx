@@ -7,7 +7,7 @@ import {
 	FormComponent,
 	Submit,
 } from "synergy-form-generator";
-import { MenuService } from "../../API";
+import { MenuService, VenueService } from "../../API";
 import { DropdownInput } from "../../components";
 import WithAuth from "../../hoc/WithAuth";
 import { CheckIcon } from "../../icons";
@@ -15,43 +15,35 @@ import { TVenue } from "../../types";
 import { MenuItems } from "../components";
 import { menuCreateFields } from "../form-fields";
 import "../styles/MenuCreate.scss";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function MenuCreate() {
+	const navigate = useNavigate();
+	const [venue, setVenue] = useState<TVenue>();
 	const form = createForm({
 		fieldProps: menuCreateFields,
 		onSubmit: async (event: Event) => {
 			event.preventDefault();
 			const { values } = form;
+			values.venueId = venue?.id;
 			each(values.menuItems, (i) => delete i.domId);
 			await MenuService.createMenu(values);
+
+			navigate("/venue/list");
 		},
 	});
-	const {
-		fields: { venueId },
-	} = form;
+	const item = useLoaderData() as TVenue;
 
-	const onVenueChange = (item: SingleValue<TVenue>) =>
-		venueId.setValue(item?.id);
+	useEffect(() => {
+		setVenue(item as TVenue);
+	}, []);
 
 	return (
 		<WithAuth>
 			<div className="menu-create">
 				<div className="form-wrapper">
-					<h1 className="venue-title">Venue</h1>
-					<FormComponent form={form}>
-						<FieldComponent
-							field={venueId}
-							component={(props) => (
-								<DropdownInput
-									{...props}
-									placeholder="Select venue..."
-									onChange={onVenueChange}
-									dropdownStore={venueId.dropdownStore}
-									className="dropdown"
-								/>
-							)}
-						/>
-					</FormComponent>
+					<h1 className="venue-title">{venue?.name}</h1>
 					<MenuItems form={form} />
 					<div className="create-menu-button">
 						<Submit

@@ -9,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import CreateIcon from "@mui/icons-material/Create";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 export {
 	InfoIcon,
@@ -22,4 +23,5 @@ export {
 	CheckIcon,
 	CreateIcon,
 	CloudUploadIcon,
+	ContentCopyIcon,
 };

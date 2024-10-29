@@ -1,23 +1,19 @@
 import { Button } from "@mui/material";
 import { each } from "lodash-es";
-import { useLoaderData } from "react-router-dom";
-import { SingleValue } from "react-select";
-import {
-	createForm,
-	FieldComponent,
-	FormComponent,
-	Submit,
-} from "synergy-form-generator";
-import { MenuService } from "../../API";
-import { DropdownInput } from "../../components";
+import { useEffect, useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
+import { createForm, Submit } from "synergy-form-generator";
+import { MenuService, VenueService } from "../../API";
 import WithAuth from "../../hoc/WithAuth";
+import { EditIcon } from "../../icons";
 import { TMenu, TVenue } from "../../types";
 import { generateId } from "../../utils";
 import { MenuItems } from "../components";
 import { menuCreateFields } from "../form-fields";
-import { EditIcon } from "../../icons";
 
 function MenuEdit() {
+	const navigate = useNavigate();
+	const [venue, setVenue] = useState<TVenue>();
 	const entity: TMenu = useLoaderData() as TMenu;
 	const form = createForm({
 		fieldProps: menuCreateFields,
@@ -30,34 +26,25 @@ function MenuEdit() {
 				if (!i.id) i.id = generateId();
 			});
 			await MenuService.update({ ...entity, ...values });
+
+			navigate("/venue/list");
 		},
 	});
-	const {
-		fields: { venueId },
-	} = form;
 
-	const onVenueChange = (item: SingleValue<TVenue>) =>
-		venueId.setValue(item?.id);
+	const getVenue = async () => {
+		const venue = await VenueService.getById(entity.venueId);
+		setVenue(venue as TVenue);
+	};
+
+	useEffect(() => {
+		getVenue();
+	}, []);
 
 	return (
 		<WithAuth>
 			<div className="menu-create">
 				<div className="form-wrapper">
-					<h1 className="venue-title">Venue</h1>
-					<FormComponent form={form}>
-						<FieldComponent
-							field={venueId}
-							component={(props) => (
-								<DropdownInput
-									{...props}
-									placeholder="Select venue..."
-									onChange={onVenueChange}
-									dropdownStore={venueId.dropdownStore}
-									className="dropdown"
-								/>
-							)}
-						/>
-					</FormComponent>
+					<h1 className="venue-title">{venue?.name}</h1>
 					<MenuItems form={form} />
 					<div className="create-menu-button">
 						<Submit

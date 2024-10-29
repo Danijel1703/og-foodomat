@@ -4,10 +4,19 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 
 	.stepper {
 		width: 80%;
 		margin-top: 5vh;
+	}
+
+	.copy-button {
+		align-self: flex-end;
+		margin: $h-med;
+		margin-top: $h-lrg;
+		margin-bottom: 0;
+		margin-right: $h-lrg * 2;
 	}
 
 	.step-content {

@@ -51,9 +51,7 @@ class BaseService<TEntity> {
 
 	get = async () => {
 		try {
-			const filters: Array<QueryConstraint> = [];
-			const dbQuery = query(ref(db, this.collection), ...filters);
-			const snapshot = await get(dbQuery);
+			const snapshot = await get(ref(db, this.collection));
 			await this.getTotalRecords();
 			const records: { [key: string]: TEntity & TBaseEntity } = snapshot.val();
 			const items = map(records, (value) => value);
@@ -70,7 +68,7 @@ class BaseService<TEntity> {
 			totalRecords,
 			items,
 			page: 1,
-			rpp: totalRecords,
+			rpp: totalRecords, //Temporary, keeping this function incase paging needs to be implemented
 		};
 		return response;
 	};

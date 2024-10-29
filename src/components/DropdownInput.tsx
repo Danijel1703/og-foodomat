@@ -73,6 +73,7 @@ function DropdownInput(props: {
 
 	return (
 		<Select
+			required={props.isRequired}
 			name={props.name}
 			key={refKey}
 			onMenuOpen={fetchItems}

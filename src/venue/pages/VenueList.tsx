@@ -73,6 +73,7 @@ const Actions = ({
 					variant="contained"
 					className="edit-venue"
 					endIcon={<EditIcon />}
+					name="edit-venue"
 					onClick={() => navigate(`/venue/${id}`)}
 				>
 					EDIT VENUE
@@ -100,7 +101,8 @@ const Actions = ({
 					<Button
 						variant="contained"
 						className="edit-venue"
-						onClick={() => navigate(`/menu/create`)}
+						name="add-menu"
+						onClick={() => navigate(`/menu/create/${id}`)}
 						endIcon={<AddIcon />}
 					>
 						ADD MENU

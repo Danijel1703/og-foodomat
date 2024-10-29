@@ -74,7 +74,11 @@ const router = createBrowserRouter([
 				path: "menu",
 				children: [
 					{
-						path: "create",
+						path: "create/:menuId",
+						loader: async ({ params }) => {
+							const venue = await VenueService.getById(params.menuId as string);
+							return venue;
+						},
 						element: <MenuCreate />,
 					},
 					{
