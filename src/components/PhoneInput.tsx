@@ -1,14 +1,24 @@
+import { MuiTelInput } from "mui-tel-input";
 import { TInputProps } from "../types";
-import TextInput from "./TextInput";
+import { useState } from "react";
 
 function PhoneInput(props: TInputProps) {
-	let value;
-	if (props.value === undefined) {
-		value = "";
-	} else {
-		value = isNaN(props.value) ? 0 : props.value;
-	}
-	return <TextInput {...props} type="tel" value={value} />;
+	const [value, setValue] = useState("");
+	return (
+		<MuiTelInput
+			value={value}
+			placeholder="Phone"
+			className={`field-input ${props.className}`}
+			onChange={(value) => {
+				setValue(value);
+				props.onChange({
+					target: {
+						value,
+					},
+				});
+			}}
+		/>
+	);
 }
 
 export default PhoneInput;

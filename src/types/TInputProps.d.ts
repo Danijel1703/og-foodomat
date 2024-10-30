@@ -3,6 +3,7 @@ type TInputProps = {
 	placeholder: string;
 	label: string;
 	value: any;
+	setValue: Function;
 	className?: string;
 	isValid?: boolean;
 	error?: string;

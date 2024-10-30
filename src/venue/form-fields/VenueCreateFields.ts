@@ -97,9 +97,6 @@ const venueCreateFields: Array<TFieldProps> = [
 		type: "tel",
 		label: "Phone Number",
 		placeholder: "Phone Number...",
-		rules: {
-			required: true,
-		},
 	},
 	{
 		name: "email",
