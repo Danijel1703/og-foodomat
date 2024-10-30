@@ -6,7 +6,6 @@ type TUser = {
 	password: string;
 	username: string;
 	email: string;
-	lastLogin?: Date;
 	imageUrl: string;
 	image?: File;
 } & TBaseEntity;

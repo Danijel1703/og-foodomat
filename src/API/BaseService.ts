@@ -1,19 +1,21 @@
 import { initializeApp } from "firebase/app";
 import {
+	equalTo,
 	get,
+	orderByChild,
 	query,
-	QueryConstraint,
 	ref,
 	remove,
 	set,
 	update,
 } from "firebase/database";
-import { isEmpty, map } from "lodash-es";
+import { filter, isEmpty, map } from "lodash-es";
 import moment from "moment";
 import { TBaseEntity } from "../types";
-import { generateId } from "../utils";
+import { generateId, removeFalsyValues, successToast } from "../utils";
 import firebaseConfig from "./config";
 import db from "./db";
+import { errorConstants, successConstants } from "../constants";
 
 class BaseService<TEntity> {
 	collection: string;
@@ -25,6 +27,7 @@ class BaseService<TEntity> {
 
 	create = async (entity: TEntity & TBaseEntity) => {
 		try {
+			entity = removeFalsyValues(entity) as TEntity & TBaseEntity;
 			if (isEmpty(entity.id)) {
 				entity.id = generateId();
 			}
@@ -33,10 +36,10 @@ class BaseService<TEntity> {
 				dateCreated: moment().utc().format(),
 				dateUpdated: moment().utc().format(),
 			});
+			successToast(successConstants.createSuccess);
 			return entity;
 		} catch (error) {
-			console.log(error);
-			throw error;
+			throw errorConstants.createError;
 		}
 	};
 
@@ -58,7 +61,7 @@ class BaseService<TEntity> {
 			const response = await this.buildResponse(items);
 			return response;
 		} catch (error) {
-			throw error;
+			throw errorConstants.fetchError;
 		}
 	};
 
@@ -79,26 +82,41 @@ class BaseService<TEntity> {
 			const user = snapshot.val();
 			return user;
 		} catch (error) {
-			throw error;
+			throw errorConstants.fetchError;
+		}
+	};
+
+	search = async (searchProperty: string, searchValue: string) => {
+		try {
+			const searchQuery = query(ref(db, this.collection));
+			const snapshot = await get(searchQuery);
+			return filter(snapshot.val(), (val: any) => {
+				return val[searchProperty] === searchValue;
+			});
+		} catch (error) {
+			throw errorConstants.fetchError;
 		}
 	};
 
 	update = async (entity: TEntity & TBaseEntity) => {
 		try {
+			entity = removeFalsyValues(entity) as TEntity & TBaseEntity;
 			entity.dateUpdated = moment().utc().format();
 			await update(ref(db, `${this.collection}/${entity.id}`), entity);
 			const updatedEntity = await this.getById(entity.id!);
+			successToast(successConstants.updateSuccess);
 			return updatedEntity;
 		} catch (error) {
-			throw error;
+			throw errorConstants.updateError;
 		}
 	};
 
 	delete = async (id: string) => {
 		try {
 			await remove(ref(db, `${this.collection}/${id}`));
+			successToast(successConstants.deleteSuccess);
 		} catch (error) {
-			throw error;
+			throw errorConstants.deleteError;
 		}
 	};
 }

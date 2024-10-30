@@ -14,6 +14,8 @@ import {
 	UrlInput,
 } from "./components";
 import theme from "./theme";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 setComponents({
 	text: TextInput,
@@ -29,6 +31,7 @@ setComponents({
 function Root() {
 	return (
 		<ThemeProvider theme={theme}>
+			<ToastContainer theme="dark" />
 			<Header />
 			<Navbar />
 			<Outlet />

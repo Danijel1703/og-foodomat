@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import { map } from "lodash-es";
 import {
 	createForm,
 	FieldComponent,
@@ -8,18 +9,15 @@ import {
 import { UserService } from "../../API";
 import { TUser } from "../../types";
 import { userCreateFields } from "../form-fields";
-import { map } from "lodash-es";
 import "../styles/UserCreate.scss";
-import { useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 const UserCreate = () => {
-	const navigate = useNavigate();
 	const form = createForm({
 		fieldProps: userCreateFields,
 		onSubmit: async (user: TUser) => {
 			await UserService.register(user);
-			await UserService.login({ ...user });
-			navigate("/venue/list");
+			redirect("/user/login");
 		},
 	});
 

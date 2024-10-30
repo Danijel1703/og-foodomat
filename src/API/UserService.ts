@@ -7,12 +7,16 @@ import {
 	reauthenticateWithCredential,
 	signInWithEmailAndPassword,
 	signOut,
+	updateProfile,
 	UserCredential,
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { dbCollections, errorConstants } from "../constants";
 import { TCredentials, TUser } from "../types";
 import BaseService from "./BaseService";
+import { isEmpty } from "lodash-es";
+import db from "./db";
+import { onValue, ref as dbRef } from "firebase/database";
 
 class UserService extends BaseService<TUser> {
 	constructor() {
@@ -30,6 +34,11 @@ class UserService extends BaseService<TUser> {
 			);
 			const id = userCredential.user.uid;
 			user.id = id;
+
+			await updateProfile(userCredential.user, {
+				displayName: `${user.firstName} ${user.lastName}`,
+			});
+
 			if (userCredential) {
 				if (image) {
 					const metadata = {
@@ -46,13 +55,10 @@ class UserService extends BaseService<TUser> {
 				await this.create(user);
 				return userCredential;
 			} else {
-				throw errorConstants.unknownError;
+				throw errorConstants.createError;
 			}
 		} catch (error: any) {
-			if (error.code === AuthErrorCodes.EMAIL_EXISTS) {
-				throw errorConstants.emailAlreadyExists;
-			}
-			throw errorConstants.unknownError;
+			throw errorConstants.createError;
 		}
 	};
 
@@ -74,7 +80,7 @@ class UserService extends BaseService<TUser> {
 			);
 			return userCredential;
 		} catch (error) {
-			throw errorConstants.unknownError;
+			throw errorConstants.loginError;
 		}
 	};
 
@@ -111,6 +117,18 @@ class UserService extends BaseService<TUser> {
 		} catch (error) {
 			throw error;
 		}
+	};
+
+	attachListener = (property: string, id: string, callback: Function) => {
+		const path = isEmpty(property)
+			? `${dbCollections.users}/${id}`
+			: `${dbCollections.users}/${id}/${property}`;
+
+		let orderRef = dbRef(db, `${path}`);
+		onValue(orderRef, (snapshot) => {
+			const updatedVotes = snapshot.val();
+			callback(updatedVotes);
+		});
 	};
 }
 

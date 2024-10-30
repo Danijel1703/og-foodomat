@@ -1,5 +1,7 @@
 import { fieldTypeConstants, TFieldProps } from "synergy-form-generator";
 import { validationErrors } from "../../constants";
+import { UserService } from "../../API";
+import { isEmpty } from "lodash-es";
 
 const userCreateFields: Array<TFieldProps> = [
 	{
@@ -26,6 +28,21 @@ const userCreateFields: Array<TFieldProps> = [
 		rules: {
 			required: true,
 		},
+		customRules: [
+			{
+				name: "checkDuplicateEmail",
+				isActive: true,
+				validator: async (field) => {
+					const userExists = await UserService.search("email", field.value);
+					const message = "A user with the same email already exists.";
+					const isValid = isEmpty(userExists);
+					return {
+						isValid: isEmpty(userExists),
+						error: isValid ? undefined : message,
+					};
+				},
+			},
+		],
 		placeholder: "Enter Email",
 		label: "Email",
 	},
@@ -36,6 +53,21 @@ const userCreateFields: Array<TFieldProps> = [
 			required: true,
 		},
 		placeholder: "Enter Username",
+		customRules: [
+			{
+				name: "checkDuplicateUsername",
+				isActive: true,
+				validator: async (field) => {
+					const userExists = await UserService.search("username", field.value);
+					const message = "A user with the same username already exists.";
+					const isValid = isEmpty(userExists);
+					return {
+						isValid: isEmpty(userExists),
+						error: isValid ? undefined : message,
+					};
+				},
+			},
+		],
 		label: "Username",
 	},
 	{

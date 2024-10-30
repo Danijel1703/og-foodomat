@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
 	createForm,
@@ -7,17 +8,21 @@ import {
 } from "synergy-form-generator";
 import { UserService } from "../../API";
 import { TCredentials } from "../../types";
+import { errorToast } from "../../utils";
 import { userLoginFields } from "../form-fields";
 import "../styles/UserLogin.scss";
-import { Button } from "@mui/material";
 
 function UserLogin(props: { redirectRoute?: string; title?: string }) {
 	const navigate = useNavigate();
 	const form = createForm({
 		fieldProps: userLoginFields,
 		onSubmit: async (credentials: TCredentials) => {
-			await UserService.login(credentials);
-			navigate(props.redirectRoute || "/venue/list");
+			try {
+				await UserService.login(credentials);
+				navigate(props.redirectRoute || "/venue/list");
+			} catch (error) {
+				errorToast(error as string);
+			}
 		},
 	});
 	const {

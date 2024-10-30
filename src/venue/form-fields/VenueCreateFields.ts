@@ -1,4 +1,6 @@
+import { isEmpty, some } from "lodash-es";
 import { TFieldProps } from "synergy-form-generator";
+import { VenueService } from "../../API";
 
 const venueCreateFields: Array<TFieldProps> = [
 	{
@@ -7,6 +9,25 @@ const venueCreateFields: Array<TFieldProps> = [
 		rules: {
 			required: true,
 		},
+		customRules: [
+			{
+				name: "checkDuplicateName",
+				isActive: true,
+				validator: async (field) => {
+					const id = field.form.entity.id;
+					const venues = await VenueService.search("name", field.value);
+					const message = "A venue with the same name already exists.";
+					let isValid = isEmpty(venues);
+					if (!isEmpty(venues)) {
+						isValid = some(venues, (venue) => venue.id === id);
+					}
+					return {
+						isValid: isValid,
+						error: isValid ? undefined : message,
+					};
+				},
+			},
+		],
 		label: "Name",
 		placeholder: "Venue Name...",
 	},
@@ -24,6 +45,25 @@ const venueCreateFields: Array<TFieldProps> = [
 		rules: {
 			required: true,
 		},
+		customRules: [
+			{
+				name: "checkDuplicateAddress",
+				isActive: true,
+				validator: async (field) => {
+					const id = field.form.entity.id;
+					const venues = await VenueService.search("address", field.value);
+					const message = "A venue with the same address already exists.";
+					let isValid = isEmpty(venues);
+					if (!isEmpty(venues)) {
+						isValid = some(venues, (venue) => venue.id === id);
+					}
+					return {
+						isValid: isValid,
+						error: isValid ? undefined : message,
+					};
+				},
+			},
+		],
 	},
 	{
 		name: "city",
@@ -66,6 +106,25 @@ const venueCreateFields: Array<TFieldProps> = [
 		type: "email",
 		label: "Email",
 		placeholder: "Email...",
+		customRules: [
+			{
+				name: "checkDuplicateEmail",
+				isActive: true,
+				validator: async (field) => {
+					const id = field.form.entity.id;
+					const venues = await VenueService.search("email", field.value);
+					const message = "A venue with the same email already exists.";
+					let isValid = isEmpty(venues);
+					if (!isEmpty(venues)) {
+						isValid = some(venues, (venue) => venue.id === id);
+					}
+					return {
+						isValid: isValid,
+						error: isValid ? undefined : message,
+					};
+				},
+			},
+		],
 	},
 	{
 		name: "websiteUrl",

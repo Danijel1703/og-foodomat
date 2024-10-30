@@ -2,7 +2,7 @@ const firebaseConfig = {
 	apiKey: "AIzaSyCV-bnG0yDKtxusmWC1Vs2WCrciVz1qEcs",
 	authDomain: "og-foodomat.firebaseapp.com",
 	databaseURL:
-		// "https://og-foodomat-default-rtdb.europe-west1.firebasedatabase.app",
+		//"https://og-foodomat-default-rtdb.europe-west1.firebasedatabase.app",
 		"ws://127.0.0.1:5001",
 	projectId: "og-foodomat",
 	storageBucket: "og-foodomat.appspot.com",

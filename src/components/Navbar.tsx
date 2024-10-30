@@ -6,23 +6,17 @@ import LoginIcon from "@mui/icons-material/Login";
 import PersonIcon from "@mui/icons-material/Person";
 import NoAuth from "../hoc/NoAuth";
 import { useEffect, useState } from "react";
-import { TUser } from "../types";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 
 function Navbar() {
 	const navigate = useNavigate();
-	const [user, setUser] = useState<TUser>();
-
-	const getUser = async () => {
-		const id = getAuth().currentUser?.uid;
-		if (!id) return;
-		const response = await UserService.getById(id);
-		setUser(response);
-	};
+	const [user, setUser] = useState<User>();
 
 	useEffect(() => {
-		getUser();
-		const unsubscribe = onAuthStateChanged(getAuth(), getUser);
+		const unsubscribe = onAuthStateChanged(getAuth(), (user: any) =>
+			setUser(user)
+		);
+
 		return () => {
 			unsubscribe();
 		};
@@ -75,7 +69,7 @@ function Navbar() {
 					</NavLink>
 				</NoAuth>
 				<WithAuth>
-					<div className="logged-user">{`${user?.firstName} ${user?.lastName}`}</div>
+					<div className="logged-user">{`${user?.displayName}`}</div>
 					<NavLink to="/" className={"nav-item"} onClick={logout}>
 						<Button variant="contained" name="logout" endIcon={<LoginIcon />}>
 							Logout

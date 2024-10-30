@@ -2,6 +2,17 @@
 	"rules": {
 		".read": "now < 1732230000000",
 		".write": "now < 1732230000000",
-		".indexOn": "dateCreated"
+		"users": {
+			".indexOn": "dateCreated",
+			"$user_id": {
+				".indexOn": "username"
+			}
+		},
+		"venues": {
+			".indexOn": "dateCreated"
+		},
+		"orders": {
+			".indexOn": "dateCreated"
+		}
 	}
 }
