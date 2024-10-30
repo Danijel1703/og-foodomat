@@ -9,7 +9,7 @@ const mockVenue = {
 	country: "Wonderland",
 	email: "contact@testvenue.com",
 	websiteUrl: "http://testvenue.com",
-	phoneNumber: 123456,
+	phoneNumber: "+38512321901",
 };
 
 describe("venue create", () => {
@@ -31,7 +31,7 @@ describe("venue create", () => {
 		cy.get("input[name='address']").type(mockVenue.address);
 		cy.get("input[name='city']").type(mockVenue.city);
 		cy.get("input[name='postalCode']").type(mockVenue.postalCode);
-		cy.get("input[name='phoneNumber']").type(mockVenue.phoneNumber.toString());
+		cy.get("input[name='phoneNumber']").type(mockVenue.phoneNumber);
 		cy.get("input[name='country']").type(mockVenue.country);
 		cy.get("input[name='email']").type(mockVenue.email);
 		cy.get("input[name='websiteUrl']").type(mockVenue.websiteUrl);
@@ -82,9 +82,7 @@ describe("venue edit", () => {
 		cy.get("input[name='address']").type(mockVenue.address + "Edit Test");
 		cy.get("input[name='city']").type(mockVenue.city + "Edit Test");
 		cy.get("input[name='postalCode']").type(mockVenue.postalCode + "Edit Test");
-		cy.get("input[name='phoneNumber']").type(
-			(mockVenue.phoneNumber + 123).toString()
-		);
+		cy.get("input[name='phoneNumber']").type(mockVenue.phoneNumber + 123);
 		cy.get("input[name='country']").type(mockVenue.country + "Edit Test");
 		cy.get("input[name='email']").type("edit.test@test.com");
 		cy.get("input[name='websiteUrl']").type(

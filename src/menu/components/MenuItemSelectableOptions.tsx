@@ -66,9 +66,11 @@ const MenuItemSelectableOptions = ({
 						placeholder="Option name..."
 						label="Option name"
 						type="text"
+						name="option-name"
 						value={newOption.label}
 					/>
 					<PriceInput
+						name="additional-price"
 						onChange={setNewOptionPrice}
 						placeholder="Additional price..."
 						label="Additional price"

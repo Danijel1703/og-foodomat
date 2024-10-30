@@ -30,7 +30,6 @@ function MenuItemEditForm({
 		fieldProps: menuItemCreateFields,
 		onSubmit: (event: Event) => {
 			event.preventDefault();
-			console.log(form.getValues());
 			editItem(form.getValues());
 			setInEdit(false);
 		},

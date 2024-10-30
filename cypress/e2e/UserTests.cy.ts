@@ -29,7 +29,6 @@ describe("Checks if the user can log in", () => {
 	const redirectRoute = "/venue/list";
 
 	beforeEach(() => {
-		cy.logout();
 		cy.visit("/user/login");
 	});
 
