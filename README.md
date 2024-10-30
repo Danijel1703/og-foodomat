@@ -36,8 +36,7 @@ OG-FOODOMAT is a small food ordering app that simplifies process of creating ord
 1. Run `npm i` to install necessary node dependencies
 2. Install Java version 17 or higher (This is needed for firebase emulator)
 3. Run `npm install -g firebase-tools` to install firebase CLI
-4. Run `firebase init emulators`
-   Select: 
+4. Run `firebase init emulators` and select: 
    - Firebase Authentication (Port: 5000)
    - Realtime Database (Port: 5001)
    - Firebase Storage (Port: 5002)
