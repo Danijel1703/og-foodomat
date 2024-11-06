@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# OG-FOODOMAT
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+OG-FOODOMAT is a small food ordering app that simplifies process of creating orders.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### User Authentication
+- Users are able to register and log in
+- Unauthorized users can only view venues and menus.
 
-## Expanding the ESLint configuration
+### Venue
+- Creating and editing venues
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Menu
+- Creating menus for specific venue.
+- Each menu item can specific size variants and extras
 
-- Configure the top-level `parserOptions` property like this:
+### Order
+- Creating orders
+- Only the order admin can change order steps
+- Order is updated automatically for all users using realtime database which uses sockets in
+  the background
+#### Order steps 
+1. Venue select
+   - Users can submit their vote for the venue they wish to order from, the order admin picks
+     the final decision and clicks next
+2. Meal select
+   - Users submit the meal they would like to order
+   - After submitting the meal, until the order admin continues the order users will only see
+     a preview of their specific order and their meal total price
+3. Order Summary
+   - Order summary is the total summary of all user orders and their prices
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Local setup
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. Run `npm i` to install necessary node dependencies
+2. Install Java version 17 or higher (This is needed for firebase emulator)
+3. Run `npm install -g firebase-tools` to install firebase CLI
+4. Run `firebase init emulators` and select: 
+   - Firebase Authentication (Port: 5000)
+   - Realtime Database (Port: 5001)
+   - Firebase Storage (Port: 5002)
+5. Run `firebase emulators:start` to start the emulators
+6. Run `npm run dev` and the app should be up and running
